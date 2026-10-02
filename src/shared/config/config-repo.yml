@@ -1,0 +1,84 @@
+# .sdd/config.yml — configuración SDD del repo (nivel 1, manda sobre la global).
+# Se versiona con el código: es la configuración compartida por el equipo.
+# La genera /inicializa de forma COMPLETA (sin depender de ~/.sdd/config.yml).
+# Sin secretos: los tokens van en variables de entorno o en la autenticación de cada CLI/MCP.
+
+version: 1
+idioma: es
+
+tracker:
+  tipo: local                     # jira | local
+  # jira:
+  #   cloudId: "00000000-0000-0000-0000-000000000000"
+  #   sitio: https://miorg.atlassian.net
+  #   proyecto: PROJ
+  #   tipos: { epica: Epic, historia: Story, bug: Bug }
+  #   estados:                    # mapeo de estados lógicos → transición real del workflow
+  #     en_curso:    { transicion: "21", nombre: "In Progress" }
+  #     en_revision: { transicion: "31", nombre: "Code Review" }
+  #     hecho:       { transicion: "41", nombre: "Done" }
+  #   campos:
+  #     story_points: customfield_10016   # null si el proyecto no tiene el campo
+  local:
+    prefijo: HU
+    ruta: specs/
+
+# confluence:                     # opcional, para /documenta
+#   espacio: DEV
+#   pagina_padre: "123456"
+
+git:
+  hosting: github                 # github | gitlab | azure | bitbucket-cloud
+  remoto: origin
+  repo: org/proyecto              # github/gitlab: org/repo · azure: org/proyecto/repo · bitbucket: workspace/repo
+  ramas:
+    preset: github-flow           # gitflow | github-flow | trunk
+    base: main                    # rama base de las features (gitflow: develop)
+    patron: "{tipo}/{clave}-{slug}"
+    tipos: [feature, bugfix, hotfix, chore]
+  commits:
+    patron: "{tipo}({clave}): {descripcion}"
+
+comandos:                         # detectados por /inicializa; vacío = no aplica
+  lint: "npm run lint"
+  test_unit: "npm test"
+  test_integracion: ""
+  test_e2e: "npx playwright test"
+
+e2e:
+  url_base: "http://localhost:3000"
+  ruta_tests: e2e/
+  navegador_mcp: auto             # auto | playwright | claude-in-chrome
+
+rutas:
+  docs: docs/
+  specs_locales: .sdd/specs/      # ignorado por git
+  informes: .sdd/reports/         # ignorado por git
+  plantillas: .sdd/templates/     # además de ~/.sdd/templates/
+
+planificacion:
+  max_rondas: 3
+  max_puntos: 8
+
+revision:
+  umbral_subagentes: 400
+
+desarrollo:
+  max_intentos_correccion: 3
+
+# Copiadas del estándar por /inicializa; edítalas para el proyecto. Las listas se reemplazan enteras.
+dor:
+  - "Formato Como / Quiero / Para con valor de negocio claro"
+  - "Al menos un criterio de aceptación en Gherkin; todos verificables"
+  - "Cumple INVEST y está estimada en 8 story points o menos"
+  - "Dependencias identificadas y no bloqueantes"
+  - "Sin preguntas abiertas para negocio"
+  - "Diseño o maqueta enlazada si afecta a la UI"
+dod:
+  - "Todos los criterios de aceptación cumplidos y con evidencia"
+  - "Lint y tests unitarios y de integración en verde"
+  - "Tests nuevos para el comportamiento añadido o corregido"
+  - "Ramas y commits siguen las convenciones"
+  - "PR creado con descripción y enlace a la historia; revisión aprobada"
+  - "Criterios con flujo de usuario validados e2e"
+  - "Documentación actualizada"

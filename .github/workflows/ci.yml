@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
       - name: skills/ coincide con el build
         run: node scripts/build.mjs --check
       - name: Validación de frontmatter y versiones

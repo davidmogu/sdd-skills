@@ -169,6 +169,7 @@ tracker:
   tipo: jira                    # jira | local
   jira:
     cloudId: "…"
+    sitio: https://miorg.atlassian.net
     proyecto: PROJ
     tipos: { epica: Epic, historia: Story, bug: Bug }
     estados:                    # mapeo creado en /inicializa (RF-I3)
@@ -213,6 +214,10 @@ rutas:
   specs_locales: .sdd/specs/    # ignorado por git
   informes: .sdd/reports/       # ignorado por git
   plantillas: .sdd/templates/   # además de ~/.sdd/templates/ (P6)
+
+planificacion: { max_rondas: 3, max_puntos: 8 }
+revision:      { umbral_subagentes: 400 }
+desarrollo:    { max_intentos_correccion: 3 }
 
 dor: [ … ]                      # copiada del estándar en /inicializa, editable
 dod: [ … ]
@@ -272,12 +277,14 @@ Escenario: Filtro por rango válido
 | `obtenerPR` | `gh pr view --json` | `glab mr view -F json` | `az repos pr show` | `GET …/pullrequests/{id}` |
 | `obtenerDiff` | `gh pr diff` | `glab mr diff` | `git diff` entre ramas tras hacer fetch | `GET …/pullrequests/{id}/diff` |
 | `listarComentarios` | `gh api …/comments` | `glab api …/notes` | `az devops invoke --area git --resource pullRequestThreads` | `GET …/pullrequests/{id}/comments` |
-| `comentarEnLinea(path, línea, texto)` | `gh api` (review comments) | `glab api` (discussions con `position`) | `az devops invoke … --http-method POST` con `threadContext: {filePath, rightFileStart}` | `POST …/comments` con `inline: {path, to}` |
+| `publicarRevision(n, comentarios, veredicto)` | `gh api` (review comments) | `glab api` (discussions con `position`) | `az devops invoke … --http-method POST` con `threadContext: {filePath, rightFileStart}` | `POST …/comments` con `inline: {path, to}` |
 | `estadoCI` | `gh pr checks` | `glab ci status` | `az pipelines runs list` | `GET …/commit/{sha}/statuses` |
 
 **Azure DevOps (D9):** los comentarios usan la API REST de *threads* a través de `az devops invoke`, que reutiliza la autenticación de `az login`. No hace falta PAT ni ningún secreto adicional.
 
 En Bitbucket Cloud la autenticación es *Basic* con `BITBUCKET_EMAIL:BITBUCKET_API_TOKEN`. Cada receta documenta además cómo **detectar** su plataforma a partir de la URL del remoto, y `/inicializa` la usa para rellenar `git.hosting`.
+
+> **Refinado en F1** (ver `src/shared/contratos/git-host.md`): `comentarEnLinea` pasa a ser `publicarRevision`, que envía todos los comentarios y el veredicto en una sola operación, y se añaden `comprobarAcceso()` y `buscarPRPorRama(rama)` (para la idempotencia de `crearPR` y para `/documenta`).
 
 ## 7. Anatomía de una skill
 

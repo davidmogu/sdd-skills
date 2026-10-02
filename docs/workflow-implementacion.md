@@ -94,7 +94,7 @@ F6 a F10 **no dependen entre sí** y se pueden hacer en cualquier orden o en par
 | F1.8 | `shared/adaptadores/git-github.md`: recetas `gh` para las 6 operaciones y detección por la URL del remoto | Adaptador GitHub |
 | F1.9 | `cli/schema/config.schema.json` (válido para los dos niveles) y la plantilla `config.yml` (§5) | Esquema de config |
 
-**✅ Checkpoint F1:**
+**✅ Checkpoint F1** (contenido y tests completados el 2026-10-02; falta la prueba manual en el sandbox):
 - Una historia de ejemplo en `specs/` valida contra el formato.
 - Las recetas de GitHub se han probado a mano sobre el sandbox R3: crear PR, leer el diff, comentar en línea y consultar el estado de CI.
 - Una config de ejemplo pasa el esquema.
