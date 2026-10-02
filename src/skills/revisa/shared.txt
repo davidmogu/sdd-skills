@@ -8,3 +8,6 @@ contratos/git-host.md
 adaptadores/tracker-local.md
 adaptadores/tracker-jira.md
 adaptadores/git-github.md
+adaptadores/git-gitlab.md
+adaptadores/git-azure.md
+adaptadores/git-bitbucket-cloud.md
