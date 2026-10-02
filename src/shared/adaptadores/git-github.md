@@ -1,6 +1,6 @@
 # Adaptador de hosting: GitHub
 
-Usa la CLI oficial [`gh`](https://cli.github.com) (probado con 2.96). Todas las órdenes se ejecutan dentro del repo; `gh` deduce `<org>/<repo>` del remoto. Si hay varios remotos, añade `--repo <git.repo>`.
+Usa la CLI oficial [`gh`](https://cli.github.com) (probado con 2.96 contra un repo real el 2026-10-02: todas las operaciones). Todas las órdenes se ejecutan dentro del repo; `gh` deduce `<org>/<repo>` del remoto. Si hay varios remotos, añade `--repo <git.repo>`.
 
 ## Requisitos
 
@@ -64,7 +64,13 @@ gh api repos/{owner}/{repo}/issues/<numero>/comments --paginate \
 
 ### `publicarRevision(numero, comentarios, veredicto)` `⏸`
 
-Una sola revisión con todos los comentarios en línea. Construye el JSON en un fichero temporal:
+Una sola revisión con todos los comentarios en línea.
+
+**Antes de enviar:**
+1. **Filtra las líneas contra el diff.** De cada cabecera `@@ -a,b +c,d @@` de `gh pr diff`, las líneas comentables de ese fichero son `c … c+d-1`. Los comentarios con `line` fuera de esos rangos se sacan de `comments` y se añaden al `body` como `` `ruta:línea` **[severidad]** texto ``. GitHub rechaza **la revisión entera** (422 *"Line could not be resolved"*) si un solo comentario apunta fuera del diff, y no dice cuál.
+2. **PR propio:** si `autor` del PR = `gh api user --jq .login`, usa siempre `event: COMMENT` (APPROVE o REQUEST_CHANGES devuelven 422 *"Can not approve your own pull request"*) e indícalo en el resumen.
+
+Construye el JSON en un fichero temporal:
 
 ```json
 {
@@ -82,7 +88,8 @@ gh api repos/{owner}/{repo}/pulls/<numero>/reviews --method POST --input <ficher
 ```
 
 - `event`: `COMMENT` (comentar), `APPROVE` (aprobar) o `REQUEST_CHANGES` (pedir cambios). En un PR propio solo vale `COMMENT`.
-- `line` es la línea en la versión nueva. Si GitHub responde 422 (*"line must be part of the diff"*), saca ese comentario de `comments` y añádelo al `body` con su `ruta:línea`.
+- `line` es la línea en la versión nueva.
+- Si aun así responde 422 *"Line could not be resolved"*, vuelve a calcular los rangos con el diff actual (puede haber commits nuevos y otro `sha_head`) y reintenta **una vez**.
 - Comentarios en varias líneas: añade `"start_line": <n>, "start_side": "RIGHT"`.
 
 ### `estadoCI(numero)`
@@ -91,7 +98,10 @@ gh api repos/{owner}/{repo}/pulls/<numero>/reviews --method POST --input <ficher
 gh pr checks <numero> --json name,state,bucket,link
 ```
 
-Mapeo de `bucket`: `pass` → `ok`, `fail` → `fallo`, `pending` → `pendiente`, `skipping` o `cancel` → `omitido`. Si no hay checks configurados, `gh` termina con error y el mensaje *"no checks reported"*: trátalo como lista vacía.
+Mapeo de `bucket`: `pass` → `ok`, `fail` → `fallo`, `pending` → `pendiente`, `skipping` o `cancel` → `omitido`.
+
+- **Duplicados:** si el workflow se ejecuta en `push` y `pull_request`, cada check aparece dos veces con el mismo `name`. Agrupa por `name` y quédate con el peor estado (`fallo` > `pendiente` > `ok` > `omitido`).
+- Si no hay checks configurados, `gh` termina con código distinto de 0 y sin JSON: trátalo como lista vacía.
 
 ## Notas
 
