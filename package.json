@@ -1,0 +1,35 @@
+{
+  "name": "@davidmogu/sdd-skills",
+  "version": "0.0.1",
+  "description": "Skills de Spec Driven Development para Claude Code: inicializa, planifica, desarrolla, revisa, prueba y documenta.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "author": "davidmogu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidmogu/sdd-skills.git"
+  },
+  "bin": {
+    "sdd": "cli/index.mjs"
+  },
+  "files": [
+    "skills/",
+    "agents/",
+    "cli/",
+    ".claude-plugin/",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/build.mjs --check && node scripts/validate.mjs",
+    "validate": "node scripts/validate.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

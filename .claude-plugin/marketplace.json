@@ -1,0 +1,15 @@
+{
+  "name": "sdd-skills",
+  "description": "Marketplace del plugin sdd: skills de Spec Driven Development para Claude Code.",
+  "owner": {
+    "name": "davidmogu"
+  },
+  "plugins": [
+    {
+      "name": "sdd",
+      "source": "./",
+      "description": "Skills de Spec Driven Development: inicializa, planifica, desarrolla, revisa, prueba y documenta.",
+      "version": "0.0.1"
+    }
+  ]
+}
