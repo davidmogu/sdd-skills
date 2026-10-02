@@ -1,0 +1,10 @@
+protocolo-comun.md
+informe.md
+config/defaults.yml
+convenciones/ramas.md
+convenciones/commits.md
+contratos/tracker.md
+contratos/git-host.md
+adaptadores/tracker-local.md
+adaptadores/tracker-jira.md
+adaptadores/git-github.md

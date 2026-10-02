@@ -1,0 +1,9 @@
+protocolo-comun.md
+informe.md
+config/defaults.yml
+config/config-repo.yml
+config/config-global.yml
+convenciones/ramas.md
+convenciones/dor-dod.md
+contratos/git-host.md
+adaptadores/tracker-jira.md

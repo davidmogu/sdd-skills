@@ -95,8 +95,6 @@ sdd-skills/
 │           ├── referencias/{mapa-documental.md, confluence.md}
 │           └── plantillas/{doc-tecnica.md, adr.md, changelog.md}
 ├── skills/                      # ← GENERADO por build (commiteado: el plugin se instala desde git)
-├── agents/
-│   └── sdd-revisor-dimension.md # subagente para la revisión paralela (§8.4)
 ├── cli/
 │   ├── index.mjs                # init · update · doctor
 │   └── schema/config.schema.json
@@ -172,10 +170,10 @@ tracker:
     sitio: https://miorg.atlassian.net
     proyecto: PROJ
     tipos: { epica: Epic, historia: Story, bug: Bug }
-    estados:                    # mapeo creado en /inicializa (RF-I3)
-      en_curso:    { transicion: "21", nombre: "In Progress" }
-      en_revision: { transicion: "31", nombre: "Code Review" }
-      hecho:       { transicion: "41", nombre: "Done" }
+    estados:                    # mapeo creado en /inicializa (RF-I3): estado destino, no transición
+      en_curso:    { nombre: "In Progress", id: "3" }
+      en_revision: { nombre: "Code Review", id: "10002" }
+      hecho:       { nombre: "Done", id: "10001" }
     campos:
       story_points: customfield_10016   # null si no existe
   local:
@@ -237,7 +235,7 @@ dod: [ … ]
 | `buscarHistorias(filtro)` | `searchJiraIssuesUsingJql` | listar el frontmatter de `specs/*.md` |
 | `crearEpica / crearHistoria(datos)` | `createJiraIssue` | escribir el fichero con el siguiente ID libre |
 | `actualizarHistoria(id, datos)` | `editJiraIssue` | reescribir el fichero |
-| `transicionar(id, estado_logico)` | `transitionJiraIssue` con `config.estados` | cambiar `estado:` en el frontmatter |
+| `transicionar(id, estado_logico)` | `listJiraIssueTransitions` → transición cuyo destino es `config.estados.<x>` → `transitionJiraIssue` (las transiciones dependen de cada issue) | cambiar `estado:` en el frontmatter |
 | `vincular(id, url, tipo)` | **no-op**: confía en la integración del hosting con Jira (D10) | añadir a `enlaces:` |
 | `crearBug(datos, historia)` | `createJiraIssue` + enlace | `specs/BUG-xxx.md` |
 
@@ -465,7 +463,7 @@ flowchart LR
 ```
 
 - **Dimensiones de revisión:** criterios de aceptación, corrección, tests, seguridad, rendimiento, legibilidad y convenciones de ramas y commits.
-- **Subagente `agents/sdd-revisor-dimension.md`:** recibe el diff, la dimensión y el checklist correspondiente, y devuelve los hallazgos en un formato estructurado. Solo se usa cuando el diff supera un umbral (unos 400 líneas cambiadas, configurable) para no gastar tokens en PRs pequeños.
+- **Subagentes (D13):** de propósito general, con las instrucciones de `referencias/subagente-revisor.md` (ruta absoluta en su prompt); reciben el worktree, las dimensiones y los criterios, y devuelven los hallazgos en YAML. Solo se usa cuando el diff supera un umbral (unos 400 líneas cambiadas, configurable) para no gastar tokens en PRs pequeños.
 - **Severidades:** `bloqueante`, `importante`, `sugerencia`, `nit`. Con un solo bloqueante, el veredicto propuesto es *pedir cambios*.
 - **Idempotencia:** antes de publicar, la skill lista los comentarios existentes y no repite hallazgos ya comentados en el mismo fichero y línea (RNF-5).
 
@@ -551,6 +549,8 @@ stateDiagram-v2
 | D8 | Nombre corto en los dos canales; `/sdd:x` como forma explícita | Alias en `.claude/commands/` | El spike F0 confirmó que el plugin resuelve el nombre corto sin conflicto |
 | D9 | Azure: comentarios en línea con `az devops invoke` | PAT + `curl`, o un comentario general | Reutiliza `az login`, sin secretos extra, y mantiene los comentarios en línea |
 | D10 | Vínculo PR↔Jira a través de la integración del hosting | Enlace remoto vía MCP, línea en la descripción, campo personalizado | Sin dependencia de operaciones del MCP ni cambios en la historia; `/inicializa` avisa si falta la integración |
+| D13 | `/revisa` lanza subagentes **de propósito general** con `referencias/subagente-revisor.md` | Agente propio en `agents/` | El canal npm solo copia `skills/`: un agente propio rompería la paridad entre canales. Las instrucciones viajan dentro de la skill |
+| D14 | El mapeo de Jira guarda el **estado destino** y la transición se resuelve en cada issue (`listJiraIssueTransitions`) | Guardar IDs de transición | Las transiciones disponibles dependen del estado actual de cada issue |
 | D12 | Instalación y configuración en dos niveles (global y repo; manda el repo, que se escribe materializada) | Solo repo | Permite valores por defecto personales o de la org sin romper la reproducibilidad del equipo |
 | D11 | Evals por hosting al publicar + versiones mínimas en `doctor` | Evals semanales programadas, o solo reportes de usuarios | Detecta la deriva antes de cada release sin necesitar sandboxes permanentes en CI |
 

@@ -1,0 +1,28 @@
+# ~/.sdd/config.yml — configuración SDD global (nivel 2, personal; no se versiona).
+# Valores por defecto para todos tus repos. La config del repo (.sdd/config.yml) manda sobre esta.
+# La crea /inicializa --global. Ruta alternativa con la variable SDD_HOME (fichero: $SDD_HOME/config.yml).
+#
+# Claves SOLO de repo, ignoradas aquí: git.hosting, git.repo, comandos.*, e2e.url_base,
+# e2e.ruta_tests, tracker.jira.proyecto, tracker.jira.estados, rutas.*
+
+version: 1
+idioma: es
+
+# tracker:
+#   tipo: jira
+#   jira:
+#     cloudId: "00000000-0000-0000-0000-000000000000"
+#     sitio: https://miorg.atlassian.net
+#     tipos: { epica: Epic, historia: Story, bug: Bug }
+
+# confluence:
+#   espacio: DEV
+
+# git:
+#   ramas:
+#     preset: gitflow
+#   commits:
+#     patron: "{tipo}({clave}): {descripcion}"
+
+# dor: [ ... ]   # DoR/DoD de tu organización, si difieren del estándar
+# dod: [ ... ]

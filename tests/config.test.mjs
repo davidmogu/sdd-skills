@@ -25,7 +25,7 @@ test('config de repo con Jira completa cumple el esquema', () => {
       tipo: 'jira',
       jira: {
         cloudId: 'abc', sitio: 'https://miorg.atlassian.net', proyecto: 'PROJ',
-        estados: { en_curso: { transicion: '21', nombre: 'In Progress' } },
+        estados: { en_curso: { nombre: 'In Progress', id: '3' } },
         campos: { story_points: 'customfield_10016' },
       },
     },

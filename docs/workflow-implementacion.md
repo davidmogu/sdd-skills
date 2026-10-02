@@ -167,7 +167,7 @@ F6 a F10 **no dependen entre sí** y se pueden hacer en cualquier orden o en par
 | F5.1 | `SKILL.md`: flujo §8.4 | RF-R1…R5 |
 | F5.2 | `referencias/checklist-revision.md` por dimensión | RF-R2 |
 | F5.3 | `referencias/severidades.md` y `tono-comentarios.md` | RF-R3 |
-| F5.4 | `agents/sdd-revisor-dimension.md` con formato de salida estructurado | §8.4 |
+| F5.4 | `referencias/subagente-revisor.md` con formato de salida estructurado (D13: sin agente propio) | §8.4 |
 | F5.5 | Umbral de diff para lanzar subagentes (configurable) y consolidación de hallazgos | D5 |
 | F5.6 | Selección interactiva de comentarios y publicación en línea con `git-github` | RF-R4 |
 | F5.7 | Deduplicación contra los comentarios existentes | RNF-5 |

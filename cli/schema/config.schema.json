@@ -4,47 +4,85 @@
   "title": "Configuración SDD",
   "description": "Válido para .sdd/config.yml (repo) y ~/.sdd/config.yml (global). Todas las claves salvo version son opcionales; la fusión repo > global > paquete completa el resto.",
   "type": "object",
-  "required": ["version"],
+  "required": [
+    "version"
+  ],
   "additionalProperties": false,
   "properties": {
-    "version": { "const": 1 },
-    "idioma": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
-
+    "version": {
+      "const": 1
+    },
+    "idioma": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+    },
     "tracker": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "tipo": { "enum": ["jira", "local"] },
+        "tipo": {
+          "enum": [
+            "jira",
+            "local"
+          ]
+        },
         "jira": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "cloudId": { "type": "string", "minLength": 1 },
-            "sitio": { "type": "string", "format": "uri" },
-            "proyecto": { "type": "string", "pattern": "^[A-Z][A-Z0-9]+$" },
+            "cloudId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sitio": {
+              "type": "string",
+              "format": "uri"
+            },
+            "proyecto": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9]+$"
+            },
             "tipos": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "epica": { "type": "string" },
-                "historia": { "type": "string" },
-                "bug": { "type": "string" }
+                "epica": {
+                  "type": "string"
+                },
+                "historia": {
+                  "type": "string"
+                },
+                "bug": {
+                  "type": "string"
+                }
               }
             },
             "estados": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "en_curso": { "$ref": "#/$defs/estadoJira" },
-                "en_revision": { "$ref": "#/$defs/estadoJira" },
-                "hecho": { "$ref": "#/$defs/estadoJira" }
+                "en_curso": {
+                  "$ref": "#/$defs/estadoJira"
+                },
+                "en_revision": {
+                  "$ref": "#/$defs/estadoJira"
+                },
+                "hecho": {
+                  "$ref": "#/$defs/estadoJira"
+                }
               }
             },
             "campos": {
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "story_points": { "type": ["string", "null"], "pattern": "^customfield_[0-9]+$" }
+                "story_points": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "pattern": "^customfield_[0-9]+$"
+                }
               }
             }
           }
@@ -53,118 +91,219 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "prefijo": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*$" },
-            "ruta": { "$ref": "#/$defs/rutaRelativa" }
+            "prefijo": {
+              "type": "string",
+              "pattern": "^[A-Z][A-Z0-9]*$"
+            },
+            "ruta": {
+              "$ref": "#/$defs/rutaRelativa"
+            }
           }
         }
       }
     },
-
     "confluence": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": false,
       "properties": {
-        "espacio": { "type": "string", "minLength": 1 },
-        "pagina_padre": { "type": "string", "pattern": "^[0-9]+$" }
+        "espacio": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pagina_padre": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        }
       }
     },
-
     "git": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "hosting": { "enum": ["github", "gitlab", "azure", "bitbucket-cloud"] },
-        "remoto": { "type": "string", "minLength": 1 },
-        "repo": { "type": "string", "pattern": "^[^/\\s]+(/[^/\\s]+)+$" },
+        "hosting": {
+          "enum": [
+            "github",
+            "gitlab",
+            "azure",
+            "bitbucket-cloud"
+          ]
+        },
+        "remoto": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repo": {
+          "type": "string",
+          "pattern": "^[^/\\s]+(/[^/\\s]+)+$"
+        },
         "ramas": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "preset": { "enum": ["gitflow", "github-flow", "trunk"] },
-            "base": { "type": "string", "minLength": 1 },
-            "patron": { "type": "string", "pattern": "\\{clave\\}" },
-            "tipos": { "type": "array", "items": { "type": "string", "pattern": "^[a-z]+$" }, "minItems": 1, "uniqueItems": true }
+            "preset": {
+              "enum": [
+                "gitflow",
+                "github-flow",
+                "trunk"
+              ]
+            },
+            "base": {
+              "type": "string",
+              "minLength": 1
+            },
+            "patron": {
+              "type": "string",
+              "pattern": "\\{clave\\}"
+            },
+            "tipos": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z]+$"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
           }
         },
         "commits": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "patron": { "type": "string", "pattern": "\\{clave\\}" }
+            "patron": {
+              "type": "string",
+              "pattern": "\\{clave\\}"
+            }
           }
         }
       }
     },
-
     "comandos": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "lint": { "type": "string" },
-        "test_unit": { "type": "string" },
-        "test_integracion": { "type": "string" },
-        "test_e2e": { "type": "string" }
+        "lint": {
+          "type": "string"
+        },
+        "test_unit": {
+          "type": "string"
+        },
+        "test_integracion": {
+          "type": "string"
+        },
+        "test_e2e": {
+          "type": "string"
+        }
       }
     },
-
     "e2e": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "url_base": { "type": "string", "format": "uri" },
-        "ruta_tests": { "$ref": "#/$defs/rutaRelativa" },
-        "navegador_mcp": { "enum": ["auto", "playwright", "claude-in-chrome"] }
+        "url_base": {
+          "type": "string",
+          "format": "uri"
+        },
+        "ruta_tests": {
+          "$ref": "#/$defs/rutaRelativa"
+        },
+        "navegador_mcp": {
+          "enum": [
+            "auto",
+            "playwright",
+            "claude-in-chrome"
+          ]
+        }
       }
     },
-
     "rutas": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "docs": { "$ref": "#/$defs/rutaRelativa" },
-        "specs_locales": { "$ref": "#/$defs/rutaRelativa" },
-        "informes": { "$ref": "#/$defs/rutaRelativa" },
-        "plantillas": { "$ref": "#/$defs/rutaRelativa" }
+        "docs": {
+          "$ref": "#/$defs/rutaRelativa"
+        },
+        "specs_locales": {
+          "$ref": "#/$defs/rutaRelativa"
+        },
+        "informes": {
+          "$ref": "#/$defs/rutaRelativa"
+        },
+        "plantillas": {
+          "$ref": "#/$defs/rutaRelativa"
+        }
       }
     },
-
     "planificacion": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "max_rondas": { "type": "integer", "minimum": 1, "maximum": 10 },
-        "max_puntos": { "enum": [1, 2, 3, 5, 8, 13, 21] }
+        "max_rondas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "max_puntos": {
+          "enum": [
+            1,
+            2,
+            3,
+            5,
+            8,
+            13,
+            21
+          ]
+        }
       }
     },
-
     "revision": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "umbral_subagentes": { "type": "integer", "minimum": 0 }
+        "umbral_subagentes": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-
     "desarrollo": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "max_intentos_correccion": { "type": "integer", "minimum": 0, "maximum": 10 }
+        "max_intentos_correccion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        }
       }
     },
-
-    "dor": { "$ref": "#/$defs/listaCriterios" },
-    "dod": { "$ref": "#/$defs/listaCriterios" }
+    "dor": {
+      "$ref": "#/$defs/listaCriterios"
+    },
+    "dod": {
+      "$ref": "#/$defs/listaCriterios"
+    }
   },
-
   "$defs": {
     "estadoJira": {
       "type": "object",
-      "required": ["transicion", "nombre"],
+      "required": [
+        "nombre"
+      ],
       "additionalProperties": false,
+      "description": "Estado destino del workflow. La transición concreta se resuelve en cada issue con listJiraIssueTransitions.",
       "properties": {
-        "transicion": { "type": "string", "pattern": "^[0-9]+$" },
-        "nombre": { "type": "string", "minLength": 1 }
+        "nombre": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        }
       }
     },
     "rutaRelativa": {
@@ -173,7 +312,10 @@
     },
     "listaCriterios": {
       "type": "array",
-      "items": { "type": "string", "minLength": 1 },
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
       "minItems": 1
     }
   }
