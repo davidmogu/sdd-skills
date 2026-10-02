@@ -31,7 +31,7 @@ Un `bug` añade: `pasos_reproducir`, `esperado`, `obtenido`, `evidencias` (rutas
 | `crearHistoria(datos)` | `Historia` sin `id` | `Historia` con `id` y `url` | `⏸`; antes, `buscarHistorias` por título para evitar duplicados |
 | `actualizarHistoria(id, cambios)` | clave + campos | `Historia` | `⏸`; solo los campos indicados |
 | `transicionar(id, estado)` | clave + estado lógico | estado resultante | `⏸`; si ya está en ese estado, no hace nada |
-| `vincular(id, enlace)` | clave + `{tipo, url}` | — | En Jira no se hace nada (D10): el vínculo lo crea la integración del hosting |
+| `vincular(id, enlace)` | clave + `{tipo, url, titulo?}` | — | `tipo: pr` en Jira: no se hace nada, el vínculo lo crea la integración del hosting (D10). Documentación y diseño sí se enlazan (`⏸`) |
 | `crearBug(datos)` | bug sin `id` | bug con `id` y `url` | `⏸`; enlazado a `historia` |
 
 No hay operación de **comentar**: los informes no se publican en el tracker (RF-T5).

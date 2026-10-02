@@ -1,0 +1,43 @@
+# Valores por defecto del paquete (nivel 3, el de menor prioridad).
+# Se aplican debajo de la config global (~/.sdd/config.yml) y de la del repo (.sdd/config.yml).
+# No edites este fichero en un proyecto: sobrescribe en .sdd/config.yml o en ~/.sdd/config.yml.
+
+version: 1
+idioma: es
+
+tracker:
+  tipo: local
+  local:
+    prefijo: HU
+    ruta: specs/
+
+git:
+  remoto: origin
+  ramas:
+    preset: github-flow
+    patron: "{tipo}/{clave}-{slug}"
+    tipos: [feature, bugfix, hotfix, chore]
+  commits:
+    patron: "{tipo}({clave}): {descripcion}"
+
+e2e:
+  ruta_tests: e2e/
+  navegador_mcp: auto
+
+rutas:
+  docs: docs/
+  specs_locales: .sdd/specs/
+  informes: .sdd/reports/
+  plantillas: .sdd/templates/
+
+planificacion:
+  max_rondas: 3
+  max_puntos: 8
+
+revision:
+  umbral_subagentes: 400   # líneas cambiadas a partir de las cuales /revisa reparte por dimensiones
+
+desarrollo:
+  max_intentos_correccion: 3
+
+# DoR y DoD: si ningún nivel las define, se usan las de referencias/convenciones/dor-dod.md

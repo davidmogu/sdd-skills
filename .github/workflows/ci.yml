@@ -23,4 +23,4 @@ jobs:
       - name: Validación de frontmatter y versiones
         run: node scripts/validate.mjs
       - name: Tests
-        run: node --test
+        run: npm test
