@@ -1,6 +1,6 @@
 {
   "name": "@davidmogu/sdd-skills",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Skills de Spec Driven Development para Claude Code: inicializa, planifica, desarrolla, revisa, prueba y documenta.",
   "type": "module",
   "license": "UNLICENSED",

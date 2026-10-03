@@ -4,6 +4,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [Sin publicar]
 
+## [0.1.0] - 2026-10-03
+
 ### Añadido
 - Skills `/inicializa` (repo y `--global`), `/planifica`, `/desarrolla`, `/revisa`, `/prueba` y `/documenta`.
 - Configuración en dos niveles (repo > global > paquete) con JSON Schema.
