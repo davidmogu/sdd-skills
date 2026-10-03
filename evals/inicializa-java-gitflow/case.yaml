@@ -1,0 +1,72 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: inicializa-java-gitflow
+description: Detecta Maven con wrapper y failsafe, rama develop → gitflow, GitLab con subgrupo y puerto de Spring.
+tags:
+  - inicializa
+  - positivo
+plugins:
+  - ../..
+runs: 3
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: inicializa
+    arm: with-only
+  - name: hosting-gitlab
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: hosting:\s*gitlab
+  - name: repo-subgrupo
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: repo:\s*eval/backend/tienda
+  - name: gitflow
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: preset:\s*gitflow
+  - name: base-develop
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: base:\s*develop
+  - name: mvnw-test
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: test_unit:\s*\"?\./mvnw test
+  - name: integracion-verify
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: test_integracion:\s*\"?\./mvnw verify
+  - name: puerto-spring
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: localhost:9090

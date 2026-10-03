@@ -1,0 +1,46 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: documenta-obsoleto
+description: "Renombrado: detecta y corrige la doc obsoleta."
+tags:
+  - documenta
+  - positivo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: documenta
+    arm: with-only
+  - name: nombre-nuevo
+    type: regex
+    target:
+      source: file
+      path: docs/configuracion.md
+    pattern: TIENDA_ZONA_HORARIA
+  - name: sin-nombre-viejo
+    type: regex
+    target:
+      source: file
+      path: docs/configuracion.md
+    pattern: TZ_TIENDA
+    match: not_contains
+  - name: detecta
+    type: llm
+    criteria: PASS si identifica explícitamente docs/configuracion.md como documentación obsoleta por el renombrado de TZ_TIENDA y lo corrige. FAIL si no lo detecta.

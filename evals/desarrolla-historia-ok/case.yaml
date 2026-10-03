@@ -1,0 +1,64 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: desarrolla-historia-ok
+description: "Historia clara: plan, rama, tests, commits convencionales, checklist; sin push."
+tags:
+  - desarrolla
+  - positivo
+plugins:
+  - ../..
+runs: 3
+execution:
+  max_turns: 80
+  timeout_seconds: 1200
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: desarrolla
+    arm: with-only
+  - name: plan
+    type: file_exists
+    path: .sdd/specs/HU-001/plan.md
+  - name: rama
+    type: regex
+    target: trace
+    pattern: feature/HU-001-[a-z0-9-]+
+  - name: commit-convencional
+    type: regex
+    target: trace
+    pattern: "(feat|test|fix)\\(HU-001\\): "
+  - name: funcion
+    type: regex
+    target:
+      source: file
+      path: src/pedidos.js
+    pattern: filtrarPorFecha
+  - name: mensaje-error
+    type: regex
+    target:
+      source: file
+      path: src/pedidos.js
+    pattern: La fecha inicial debe ser anterior a la final
+  - name: sin-push
+    type: tool_used
+    tool: Bash
+    input_match: git push
+    min: 0
+    max: 0
+  - name: calidad
+    type: llm
+    weight: 3
+    focus: trace
+    criteria: "PASS si: se generó y aprobó un plan con tareas mapeadas a E1/E2; se implementó con tests para ambos escenarios; se ejecutaron lint y tests en verde; se mostró un checklist de criterios con evidencia (fichero:línea de test) y la DoD con pendientes (/revisa, /prueba, /documenta); no se hizo push porque se rechazó. FAIL si no hay tests para algún escenario, si declara éxito con tests en rojo o si hace push."

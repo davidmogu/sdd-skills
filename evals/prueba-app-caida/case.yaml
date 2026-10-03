@@ -1,0 +1,43 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: prueba-app-caida
+description: "App caída: comprueba URL, no la arranca, no finge pruebas."
+tags:
+  - prueba
+  - negativo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: prueba
+    arm: with-only
+  - name: comprueba-url
+    type: tool_used
+    tool: Bash
+    input_match: localhost:59999
+  - name: no-arranca-app
+    type: tool_used
+    tool: Bash
+    input_match: npm (run )?(start|dev)|node .*server
+    min: 0
+    max: 0
+  - name: informa
+    type: llm
+    criteria: PASS si comprueba que la URL base no responde, pide levantar la aplicación u otra URL, no ejecuta pruebas exploratorias contra nada y termina con un informe o resumen que lo refleja. FAIL si afirma haber probado los criterios o si arranca la aplicación por su cuenta.

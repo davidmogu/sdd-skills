@@ -1,0 +1,44 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: desarrolla-dor-falla
+description: "Historia sin DoR: se detiene, no planifica ni hace commits."
+tags:
+  - desarrolla
+  - negativo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: desarrolla
+    arm: with-only
+  - name: sin-plan
+    type: file_exists
+    path: .sdd/specs/HU-002/plan.md
+    exists: false
+  - name: sin-commits
+    type: tool_used
+    tool: Bash
+    input_match: git commit
+    min: 0
+    max: 0
+  - name: detiene
+    type: llm
+    weight: 2
+    criteria: PASS si la respuesta indica que la historia no cumple la DoR (falta Como/Quiero/Para, criterios Gherkin, estimación), enumera qué falta y sugiere /planifica HU-002. FAIL si empieza a implementar o genera un plan.

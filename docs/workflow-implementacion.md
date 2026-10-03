@@ -3,6 +3,20 @@
 > `/sc:workflow` · 2026-10-02 · Basado en [`requisitos.md`](./requisitos.md) y [`diseno.md`](./diseno.md)
 > Siguiente paso: `/sc:implement` por fases, empezando por la F0
 
+## 0. Estado (2026-10-03)
+
+| Fase | Contenido | Verificación |
+|---|---|---|
+| F0 | ✅ | ✅ Spike con `claude -p` y eval |
+| F1 | ✅ | ✅ Tests + recetas de GitHub contra `sdd-sandbox` |
+| F2–F5 (MVP) | ✅ | ⏳ Evals escritas, sin ejecutar (coste); validación por un desarrollador externo pendiente |
+| F6 Jira | ✅ | ⏳ Operaciones verificadas con `discover`; escrituras pendientes de un proyecto de pruebas (R4) |
+| F7 GitLab / Azure / Bitbucket | ✅ | ⏳ Filtros `jq` y cobertura del contrato con tests; pendiente de sandboxes (R5) |
+| F8 `/prueba` | ✅ | ⏳ Evals negativas; prueba con navegador pendiente |
+| F9 `/documenta` | ✅ | ⏳ Evals; Confluence pendiente (R6) |
+| F10 CLI | ✅ | ✅ 13 tests (init, update, doctor, de punta a punta) |
+| F11 | ✅ Evals, release y guías | ⏳ Primera ejecución de las evals y primera release pendientes de aprobación |
+
 ## 1. Estrategia
 
 **Primero un corte vertical y después se amplía.** Antes de añadir Jira, más hostings u otras skills, el flujo principal debe funcionar de principio a fin con la combinación más sencilla:

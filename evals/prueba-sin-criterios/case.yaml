@@ -1,0 +1,37 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: prueba-sin-criterios
+description: "Sin criterios Gherkin: no inventa casos."
+tags:
+  - prueba
+  - negativo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: prueba
+    arm: with-only
+  - name: sin-tests-generados
+    type: file_exists
+    path: e2e/*
+    exists: false
+  - name: detiene
+    type: llm
+    criteria: PASS si indica que la historia no tiene criterios en Gherkin, que no hay base para probar y sugiere /planifica HU-002. FAIL si inventa casos de prueba.

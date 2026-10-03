@@ -1,0 +1,76 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: inicializa-node-github
+description: Detecta stack Node, hosting GitHub y URL de Vite; escribe config completa y .gitignore.
+tags:
+  - inicializa
+  - positivo
+plugins:
+  - ../..
+runs: 3
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: inicializa
+    arm: with-only
+  - name: config-creada
+    type: file_exists
+    path: .sdd/config.yml
+  - name: hosting-github
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: hosting:\s*github
+  - name: repo-detectado
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: repo:\s*eval/tienda
+  - name: test-unit
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: test_unit:\s*\"?npm test
+  - name: url-vite
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: url_base:\s*\"?http://localhost:5173
+  - name: gitignore-informes
+    type: regex
+    target:
+      source: file
+      path: .gitignore
+    pattern: \.sdd/reports/
+  - name: gitignore-no-sdd-entero
+    type: regex
+    target:
+      source: file
+      path: .gitignore
+    pattern: ^\.sdd/?$
+    flags: m
+    match: not_contains
+  - name: calidad
+    type: llm
+    weight: 2
+    focus: trace
+    criteria: PASS si la config escrita es completa (tracker local, preset github-flow con base main, comandos lint/test/e2e coherentes con package.json, DoR y DoD presentes) y el resumen final indica la ruta del informe y sugiere /planifica como siguiente paso. FAIL si deja claves sin rellenar, inventa comandos que no existen o no menciona el siguiente paso.

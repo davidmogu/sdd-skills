@@ -1,0 +1,47 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: documenta-funcion-nueva
+description: "Función nueva: README y CHANGELOG actualizados, sin documentos de más."
+tags:
+  - documenta
+  - positivo
+plugins:
+  - ../..
+runs: 3
+execution:
+  max_turns: 50
+  timeout_seconds: 900
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: documenta
+    arm: with-only
+  - name: readme-actualizado
+    type: regex
+    target:
+      source: file
+      path: README.md
+    pattern: filtrarPorFecha
+  - name: changelog
+    type: regex
+    target:
+      source: file
+      path: CHANGELOG.md
+    pattern: HU-001
+  - name: calidad
+    type: llm
+    weight: 2
+    focus: trace
+    criteria: PASS si documenta filtrarPorFecha en el README junto a filtrarPorEstado (firma, comportamiento y el error por rango invertido), añade una entrada en el changelog con la clave HU-001, no crea documentos innecesarios (p. ej. un ADR sin decisión técnica) y termina con un informe. FAIL si documenta cosas que no existen en el código o crea documentación sin relación con el cambio.

@@ -31,9 +31,11 @@ Antes de cada versión, ejecuta las evals (sección siguiente).
 ## Evals
 
 ```bash
-claude plugin eval . --runs 1 --ablation none --no-publish --max-cost-usd 2          # todas, una pasada
-claude plugin eval . --case 'planifica-*' --runs 3 --ablation none --no-publish       # una skill, 3 pasadas
+claude plugin eval . --scaffold --allow-tools Bash Write Edit --runs 1 --ablation none --no-publish --max-cost-usd 8
+claude plugin eval . --scaffold --allow-tools Bash Write Edit --case 'planifica-*' --runs 3 --ablation none --no-publish
 ```
+
+Casos, diseño y coste estimado: [`evals/README.md`](../evals/README.md).
 
 - **Cuestan dinero o cuota:** cada caso lanza sesiones de Claude. Usa `--max-cost-usd` y limita con `--case` o `--tag`.
 - `--scaffold` hace falta en los casos que preparan un repo de ejemplo (scripts propios, revisados).

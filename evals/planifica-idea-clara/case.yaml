@@ -1,0 +1,42 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: planifica-idea-clara
+description: "Idea clara con respuestas: historias INVEST, Gherkin, puntos, persistidas en specs/."
+tags:
+  - planifica
+  - positivo
+plugins:
+  - ../..
+runs: 3
+execution:
+  max_turns: 50
+  timeout_seconds: 900
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: planifica
+    arm: with-only
+  - name: historia-creada
+    type: file_exists
+    path: specs/HU-*.md
+  - name: gherkin
+    type: regex
+    target: trace
+    pattern: Escenario:[\s\S]{0,400}Dado[\s\S]{0,400}Cuando[\s\S]{0,400}Entonces
+  - name: calidad
+    type: llm
+    weight: 3
+    focus: trace
+    criteria: "PASS si: (1) hay al menos una historia con Como/Quiero/Para; (2) los criterios en Gherkin cubren el rango válido, la exclusión de cancelados y un caso de error o límite; (3) cada historia tiene story points Fibonacci ≤ 8 con razonamiento; (4) se muestra una validación INVEST; (5) los ficheros se guardaron en specs/ con IDs desde HU-001. FAIL si falta alguno de los puntos o si los criterios son vagos ('funciona bien', 'rápido')."

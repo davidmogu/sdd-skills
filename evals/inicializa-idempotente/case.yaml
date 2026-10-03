@@ -1,0 +1,39 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: inicializa-idempotente
+description: Con config existente, muestra diff o nada; no reescribe.
+tags:
+  - inicializa
+  - negativo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 40
+  timeout_seconds: 600
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: inicializa
+    arm: with-only
+  - name: config-no-reescrita
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: MARCA-INTACTA
+  - name: informa-sin-cambios
+    type: llm
+    criteria: PASS si la respuesta reconoce que ya existe una configuración y muestra un diff o indica que no hay cambios, sin reescribir el fichero completo. FAIL si reescribe la config desde cero sin mostrar diferencias.

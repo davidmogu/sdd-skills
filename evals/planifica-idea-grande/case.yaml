@@ -1,0 +1,38 @@
+# Generado a partir del diseño de evals (F11). Prompt en prompt.md; scaffold en setup.sh.
+schema_version: "1.1"
+name: planifica-idea-grande
+description: "Idea grande: épica + historias verticales ≤ 8 puntos con dependencias."
+tags:
+  - planifica
+  - positivo
+plugins:
+  - ../..
+runs: 2
+execution:
+  max_turns: 60
+  timeout_seconds: 900
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: skill-invocada
+    type: tool_used
+    tool: Skill
+    input_match: planifica
+    arm: with-only
+  - name: varias-historias
+    type: file_exists
+    path: specs/HU-00[3-9].md
+  - name: division
+    type: llm
+    weight: 3
+    focus: trace
+    criteria: PASS si la idea se divide en una épica y varias historias verticales (no por capas backend/frontend), ninguna historia supera 8 puntos, y se crean dependencias explícitas entre ellas. FAIL si crea una sola historia enorme, si alguna historia tiene más de 8 puntos o si divide por capas técnicas.
