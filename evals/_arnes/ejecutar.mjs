@@ -4,7 +4,7 @@
 // Ejecuta cada caso con `claude -p --plugin-dir` en un workspace temporal, evalúa los graders
 // deterministas (file_exists, regex, tool_used) y deja los `llm` como pendientes de juicio.
 //
-//   node evals/_arnes/ejecutar.mjs [--case <glob>] [--tag <tag>] [-j 4] [--max-cost-usd 8] [--model <m>]
+//   node evals/_arnes/ejecutar.mjs [--dir evals/_jira] [--case <glob>] [--tag <tag>] [-j 4] [--max-cost-usd 8] [--model <m>]
 //
 // ⚠️ Cuesta dinero o cuota: cada caso es una sesión de Claude. Sin el aislamiento del sandbox:
 // úsalo solo con casos propios.
@@ -17,6 +17,7 @@ import { parse } from 'yaml';
 
 const RAIZ = resolve(new URL('../..', import.meta.url).pathname);
 const EVALS = join(RAIZ, 'evals');
+const DIR_CASOS = resolve(process.argv.includes('--dir') ? process.argv[process.argv.indexOf('--dir') + 1] : EVALS);
 const args = process.argv.slice(2);
 const opt = (n, d) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : d; };
 const CONC = Number(opt('-j', 4));
@@ -26,9 +27,9 @@ const filtroCaso = opt('--case');
 const filtroTag = opt('--tag');
 const comoRegex = (g) => new RegExp(`^${g.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*')}$`);
 
-const casos = readdirSync(EVALS)
-  .filter((d) => existsSync(join(EVALS, d, 'case.yaml')))
-  .map((d) => ({ dir: join(EVALS, d), cfg: parse(readFileSync(join(EVALS, d, 'case.yaml'), 'utf8')) }))
+const casos = readdirSync(DIR_CASOS)
+  .filter((d) => existsSync(join(DIR_CASOS, d, 'case.yaml')))
+  .map((d) => ({ dir: join(DIR_CASOS, d), cfg: parse(readFileSync(join(DIR_CASOS, d, 'case.yaml'), 'utf8')) }))
   .filter(({ cfg }) => (!filtroCaso || comoRegex(filtroCaso).test(cfg.name)) && (!filtroTag || cfg.tags.includes(filtroTag)));
 
 const salida = join(EVALS, 'results', `local-${new Date().toISOString().replace(/[:.]/g, '-')}`);

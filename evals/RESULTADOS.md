@@ -40,3 +40,19 @@
 
 - En `/planifica`, sin PO, las preguntas sin respuesta se cerraron con "no" (por la instrucción de la eval). En uso real conviene que la skill anote esas decisiones por defecto como **supuestos** en las notas de cada historia, para que el PO las vea.
 - `/desarrolla` dejó la historia en `en_curso` sin PR (correcto). El "siguiente paso" sugiere relanzar `/desarrolla` para crear el PR tras configurar el remoto: funciona gracias a la reanudación.
+
+## Pasada 2 — modo Jira (2026-10-03)
+
+- **Casos:** `evals/_jira/`, separados de la suite normal porque escriben en Jira real.
+- **Proyecto:** `SDD` de pruebas (team-managed) en `jaware-solutions.atlassian.net`.
+- **Coste real:** **2,05 $**.
+
+| Caso | Deterministas | Calidad (llm) | Turnos | Coste |
+|---|---|---|---|---|
+| jira-inicializa | 7/7 | ✅ proyecto, tipos, `en_curso` → In Progress, story points `customfield_10016`; avisa de que no hay estado de revisión; no escribe en Jira | 15 | 0,60 $ |
+| jira-planifica | 4/4 | ✅ crea SDD-6 en la épica SDD-1 con 3 pts; descripción con el formato del adaptador (5 escenarios, Esquema con Ejemplos para el límite 5000/5001, fuera de alcance y **supuestos**); comprueba duplicados | 14 | 0,68 $ |
+| jira-desarrolla | 7/7 | ✅ lee SDD-5, resuelve la transición por destino y la pasa a In Progress; plan, 2 commits `feat(SDD-5)`, tests en verde, sin push. No avisa de `en_revision` porque no llega al PR (correcto) | 21 | 0,76 $ |
+
+Estado verificado después en Jira: SDD-5 en *In Progress*, SDD-6 creada con puntos.
+
+**Total acumulado de evals: 9,85 $.**

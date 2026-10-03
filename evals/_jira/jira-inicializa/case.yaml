@@ -1,0 +1,67 @@
+# Eval en modo Jira: escribe en el proyecto de pruebas SDD. Ejecutar solo con el arnés y --dir evals/_jira.
+schema_version: "1.1"
+name: jira-inicializa
+description: Modo Jira contra el proyecto de pruebas SDD (escribe en Jira real).
+tags:
+  - jira
+runs: 1
+execution:
+  max_turns: 80
+  timeout_seconds: 1200
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+    - ToolSearch
+    - mcp__atlassian
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: proyecto
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: proyecto:\s*"?SDD
+  - name: cloudid
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: 81843a90-9342-44dd-a175-3638f2c4e2b7
+  - name: en-curso
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: en_curso:[\s\S]{0,60}In Progress
+  - name: puntos
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: story_points:\s*"?customfield_10016
+  - name: sin-transicion-guardada
+    type: regex
+    target:
+      source: file
+      path: .sdd/config.yml
+    pattern: "transicion:"
+    match: not_contains
+  - name: mcp-estados
+    type: tool_used
+    tool: mcp__atlassian__executeRead
+    input_match: listJiraStatuses
+  - name: sin-escrituras-jira
+    type: tool_used
+    tool: mcp__atlassian__createJiraIssue
+    min: 0
+    max: 0
+  - name: calidad
+    type: llm
+    criteria: PASS si avisa de que no hay estado de revisión en SDD y lo deja sin mapear, y no crea nada en Jira.

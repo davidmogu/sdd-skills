@@ -1,0 +1,59 @@
+# Eval en modo Jira: escribe en el proyecto de pruebas SDD. Ejecutar solo con el arnés y --dir evals/_jira.
+schema_version: "1.1"
+name: jira-desarrolla
+description: Modo Jira contra el proyecto de pruebas SDD (escribe en Jira real).
+tags:
+  - jira
+runs: 1
+execution:
+  max_turns: 80
+  timeout_seconds: 1200
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+    - ToolSearch
+    - mcp__atlassian
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: lee-historia
+    type: tool_used
+    tool: mcp__atlassian__getJiraIssue
+    input_match: SDD-5
+  - name: resuelve-transicion
+    type: tool_used
+    tool: mcp__atlassian__executeRead
+    input_match: listJiraIssueTransitions
+  - name: transiciona
+    type: tool_used
+    tool: mcp__atlassian__transitionJiraIssue
+    input_match: SDD-5
+  - name: rama
+    type: regex
+    target: trace
+    pattern: feature/SDD-5-[a-z0-9-]+
+  - name: commit
+    type: regex
+    target: trace
+    pattern: "(feat|test|fix)\\(SDD-5\\): "
+  - name: funcion
+    type: regex
+    target:
+      source: file
+      path: src/pedidos.js
+    pattern: filtrarPorFecha
+  - name: sin-push
+    type: tool_used
+    tool: Bash
+    input_match: (^|"command":\s*"|[;&|]\s*|\\n\s*)git push
+    min: 0
+    max: 0
+  - name: calidad
+    type: llm
+    criteria: PASS si implementa con tests, pasa SDD-5 a In Progress, avisa de que en_revision no está mapeado y no hace push.

@@ -1,0 +1,43 @@
+# Eval en modo Jira: escribe en el proyecto de pruebas SDD. Ejecutar solo con el arnés y --dir evals/_jira.
+schema_version: "1.1"
+name: jira-planifica
+description: Modo Jira contra el proyecto de pruebas SDD (escribe en Jira real).
+tags:
+  - jira
+runs: 1
+execution:
+  max_turns: 80
+  timeout_seconds: 1200
+  allowed_tools:
+    - Read
+    - Glob
+    - Grep
+    - Bash
+    - Write
+    - Edit
+    - Skill
+    - ToolSearch
+    - mcp__atlassian
+  append_system_prompt: "Esta es una evaluación automática: no hay ningún humano disponible. Cuando la skill pida confirmación o una elección, usa las respuestas que da el prompt; si el prompt no cubre una pregunta, considera la respuesta como 'no' o 'cancelar' y continúa. No esperes respuestas que no vas a recibir."
+context:
+  scaffold_script: setup.sh
+graders:
+  - name: crea-en-jira
+    type: tool_used
+    tool: mcp__atlassian__createJiraIssue
+    input_match: SDD
+  - name: con-puntos
+    type: tool_used
+    tool: mcp__atlassian__createJiraIssue
+    input_match: customfield_10016
+  - name: con-epica
+    type: tool_used
+    tool: mcp__atlassian__createJiraIssue
+    input_match: SDD-1
+  - name: sin-specs-locales
+    type: file_exists
+    path: specs/*.md
+    exists: false
+  - name: calidad
+    type: llm
+    criteria: PASS si crea historia(s) en Jira con Como/Quiero/Para y Gherkin en la descripción, puntos y padre SDD-1, y devuelve las claves reales.
