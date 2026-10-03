@@ -4,6 +4,11 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [Sin publicar]
 
+### Corregido
+- Adaptador de Bitbucket Cloud verificado contra un repo real: `diffstat` necesita seguir la redirección, el PR propio sí se puede aprobar (se recomienda solo comentar), `git push` con token usa el usuario `x-bitbucket-api-token-auth`.
+- Adaptador de Jira ajustado al MCP real (puntos por nombre de campo, transiciones comparadas por nombre).
+- Las skills responden en el idioma de la config.
+
 ## [0.1.1] - 2026-10-03
 
 ### Corregido

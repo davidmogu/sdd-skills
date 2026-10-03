@@ -11,7 +11,7 @@
 | F1 | ✅ | ✅ Tests + recetas de GitHub contra `sdd-sandbox` |
 | F2–F5 (MVP) | ✅ | ✅ Evals 14/14 (7,80 $); pendiente la validación por un desarrollador externo |
 | F6 Jira | ✅ | ✅ Adaptador y skills de punta a punta verificados en el proyecto `SDD` (2,05 $) |
-| F7 GitLab / Azure / Bitbucket | ✅ | ⏳ Filtros `jq` y cobertura del contrato con tests; pendiente de sandboxes (R5) |
+| F7 GitLab / Azure / Bitbucket | ✅ | ✅ Bitbucket verificado en `jaware-solutions/sdd-sandbox`; ⏳ GitLab y Azure sin cuentas de prueba |
 | F8 `/prueba` | ✅ | ⏳ Evals negativas; prueba con navegador pendiente |
 | F9 `/documenta` | ✅ | ⏳ Evals; Confluence pendiente (R6) |
 | F10 CLI | ✅ | ✅ 13 tests (init, update, doctor, de punta a punta) |

@@ -9,7 +9,7 @@ Genera una tabla `Dependencia | Estado | Cómo resolver`. Comprueba solo lo que 
 | github | `command -v gh` y `gh auth status` | Instalar: https://cli.github.com · login: `gh auth login` |
 | gitlab | `command -v glab` y `glab auth status` | Instalar: https://gitlab.com/gitlab-org/cli · login: `glab auth login` |
 | azure | `command -v az`, `az extension show --name azure-devops` y `az account show` | Instalar az: https://aka.ms/azure-cli · extensión: `az extension add --name azure-devops` · login: `az login` |
-| bitbucket-cloud | `command -v curl` y que existan las variables `BITBUCKET_EMAIL` y `BITBUCKET_API_TOKEN` (comprueba **solo que existen**: `[ -n "$BITBUCKET_API_TOKEN" ]`; no muestres su valor) | Crear un token de API en Bitbucket (scopes de lectura/escritura de repos y PRs) y exportarlo en el perfil del shell |
+| bitbucket-cloud | `command -v curl` y que existan las variables `BITBUCKET_EMAIL` y `BITBUCKET_API_TOKEN` (comprueba **solo que existen**: `[ -n "$BITBUCKET_API_TOKEN" ]`; no muestres su valor) | Crear un API token con scopes (app Bitbucket: `read:user`, `read:repository`, `write:repository`, `read:pullrequest`, `write:pullrequest`) y exportarlo en el perfil del shell. Si el terminal de Claude no lo ve, reiniciar la sesión tras editar el perfil |
 
 Con la CLI autenticada, comprueba además el acceso al repo mediante la operación `comprobarAcceso()` del adaptador, si existe.
 

@@ -1,6 +1,6 @@
 # Adaptador de hosting: Bitbucket Cloud
 
-> ⚠️ **Pendiente de probar contra un repo real** (F7). Escrito a partir de la documentación de la API REST 2.0. Si una llamada falla, informa del código y del mensaje en el informe para corregir el adaptador.
+> Verificado el 2026-10-03 contra un repo real (`jaware-solutions/sdd-sandbox`): las 8 operaciones del contrato.
 
 Bitbucket Cloud no tiene una CLI oficial y el MCP de Atlassian no cubre sus PRs: se usa `curl` contra la API REST 2.0 con **token de API + email de la cuenta** (autenticación *Basic*).
 
@@ -18,7 +18,9 @@ BB() { curl -sS -u "$BITBUCKET_EMAIL:$BITBUCKET_API_TOKEN" -H "Accept: applicati
 [ -n "$BITBUCKET_EMAIL" ] && [ -n "$BITBUCKET_API_TOKEN" ] || echo "faltan BITBUCKET_EMAIL / BITBUCKET_API_TOKEN"
 ```
 
-Si faltan: el usuario crea un **API token** en Bitbucket (scopes `read:repository`, `read:pullrequest`, `write:pullrequest`) y lo exporta en su perfil del shell. No lo pidas en el chat.
+Si faltan: el usuario crea un **API token con scopes** en https://id.atlassian.com/manage-profile/security/api-tokens (app Bitbucket: `read:user`, `read:repository`, `write:repository`, `read:pullrequest`, `write:pullrequest`) y lo exporta en su perfil del shell. No lo pidas en el chat.
+
+**`git push` por HTTPS con ese token:** usuario `x-bitbucket-api-token-auth` y el token como contraseña. Si git no tiene ya la credencial, usa un `GIT_ASKPASS` que lea `BITBUCKET_API_TOKEN` del entorno; no guardes el token en la configuración de git ni en la URL del remoto.
 
 ## Operaciones
 
@@ -42,7 +44,7 @@ jq -n --arg t "<titulo>" --rawfile d <fichero> --arg o "<origen>" --arg de "<des
 
 ```bash
 BB "$R/pullrequests/<id>"
-BB "$R/pullrequests/<id>/diffstat?pagelen=100" | jq '[.values[] | {ruta: (.new.path // .old.path), "añadidas": .lines_added, eliminadas: .lines_removed}]'
+BB -L "$R/pullrequests/<id>/diffstat?pagelen=100" | jq '[.values[] | {ruta: (.new.path // .old.path), "añadidas": .lines_added, eliminadas: .lines_removed}]'
 ```
 
 Mapeo:
@@ -67,6 +69,8 @@ BB -G "$R/pullrequests" --data-urlencode "q=source.branch.name=\"<rama>\"" \
 | jq '.values[0] | {id, state, url: .links.html.href}'
 ```
 
+Si no hay PR, `.values` viene vacío (el filtro devuelve campos `null`): trátalo como "no existe".
+
 ### `obtenerDiff(numero)`
 
 ```bash
@@ -86,7 +90,7 @@ Pagina siguiendo `.next` mientras exista.
 
 Bitbucket no agrupa: un comentario por llamada.
 
-1. Filtra las líneas contra los hunks del diff; lo que caiga fuera va al resumen.
+1. Filtra las líneas contra los hunks del diff; lo que caiga fuera va al resumen. Bitbucket **acepta** comentarios fuera del diff, pero quedan desligados del cambio y confunden al autor.
 2. Por cada comentario en línea:
    ```bash
    jq -n --arg c "<cuerpo>" --arg p "<ruta>" --argjson l <linea> '{content:{raw:$c}, inline:{path:$p, to:$l}}' \
@@ -98,7 +102,7 @@ Bitbucket no agrupa: un comentario por llamada.
    - `pedir_cambios` → `BB -X POST "$R/pullrequests/<id>/request-changes"`.
    - `comentar` → nada más.
 
-   Bitbucket no permite aprobar el propio PR: compara `author.account_id` con `BB "$API/user" | jq -r .account_id`.
+   **PR propio** (compara `author.account_id` con `BB "$API/user" | jq -r .account_id`): a diferencia de GitHub, Bitbucket **sí permite** aprobar o pedir cambios en el propio PR, pero no es una revisión real y las restricciones de merge que exigen aprobaciones de otros no lo cuentan. Avísalo y, salvo que el revisor insista, publica solo comentarios (`comentar`), igual que en las demás plataformas.
 
 ### `estadoCI(numero)`
 
