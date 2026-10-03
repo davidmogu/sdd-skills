@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          scope: '@davidmogu'
+      - run: npm ci
+      - name: El tag coincide con las versiones de los manifiestos
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          for v in "$(node -p "require('./package.json').version")" \
+                   "$(node -p "require('./.claude-plugin/plugin.json').version")" \
+                   "$(node -p "require('./.claude-plugin/marketplace.json').plugins.find(p => p.name === 'sdd').version")"; do
+            [ "$v" = "$TAG" ] || { echo "Versión $v no coincide con el tag $TAG"; exit 1; }
+          done
+      - run: npm run check
+      - run: npm test
+      - name: Publicar en GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Crear release en GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk "/^## \\[${GITHUB_REF_NAME#v}\\]/{f=1;next} /^## \\[/{f=0} f" CHANGELOG.md > notas.md
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notas.md

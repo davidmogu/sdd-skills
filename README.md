@@ -6,7 +6,9 @@ Skills de **Spec Driven Development** para Claude Code: un flujo estructurado de
 /inicializa → /planifica → /desarrolla → /revisa → /prueba → /documenta
 ```
 
-> 🚧 En desarrollo: fase F0 completada (andamiaje y spike). Consulta el [plan de implementación](docs/workflow-implementacion.md).
+> Estado: las seis skills y el CLI están implementados; pendiente de la verificación con evals y en hostings distintos de GitHub (ver [guía del mantenedor](docs/guia-mantenedor.md#estado-de-verificación)).
+
+📖 **[Guía de uso](docs/guia-uso.md)**
 
 ## Instalación
 
@@ -17,7 +19,7 @@ Skills de **Spec Driven Development** para Claude Code: un flujo estructurado de
 /plugin install sdd@sdd-skills
 ```
 
-**Como paquete npm** (proyectos Node, desde GitHub Packages; disponible en F10):
+**Como paquete npm** (proyectos Node, desde GitHub Packages; ver la [configuración de `.npmrc`](docs/guia-uso.md#como-paquete-npm-proyectos-node)):
 
 ```bash
 npm i -D @davidmogu/sdd-skills
@@ -46,5 +48,6 @@ claude --plugin-dir .   # probar el plugin en una sesión sin instalarlo
 - [Diseño](docs/diseno.md)
 - [Plan de implementación](docs/workflow-implementacion.md)
 - [Spike F0](docs/spike-f0.md)
+- [Guía de uso](docs/guia-uso.md) · [Guía del mantenedor](docs/guia-mantenedor.md)
 
 Responsable: [@davidmogu](https://github.com/davidmogu)
