@@ -84,4 +84,4 @@ git push && git push origin v0.2.0          # el workflow Release publica en Git
 | Adaptador Jira y `/inicializa` con Atlassian | ⏳ Nombres de operación verificados con `discover`; pendiente de probar escrituras en un proyecto Jira de pruebas |
 | Confluence (`/documenta`) | ⏳ Pendiente: falta un espacio de pruebas |
 | Skills de punta a punta | ✅ 14/14 evals en modo local + GitHub (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)); falta `/revisa` sobre un PR real y `/prueba` con navegador |
-| CLI npm | ✅ Tests automáticos; publicación en GitHub Packages pendiente de la primera release |
+| CLI npm | ✅ Tests automáticos + instalación real de la 0.1.1 desde GitHub Packages (2026-10-03) |
