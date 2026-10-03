@@ -84,5 +84,5 @@ git push && git push origin v0.2.0          # el workflow Release publica en Git
 | Adaptadores GitLab y Azure DevOps | ⏳ Pendiente: sin cuentas de prueba |
 | Adaptador Jira y `/inicializa` con Atlassian | ✅ 2026-10-03: las 8 operaciones del contrato y `/inicializa`, `/planifica` y `/desarrolla` de punta a punta contra el proyecto `SDD` ([`evals/RESULTADOS.md`](../evals/RESULTADOS.md)) |
 | Confluence (`/documenta`) | ⏳ Pendiente: falta un espacio de pruebas |
-| Skills de punta a punta | ✅ 14/14 evals en modo local + GitHub (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)); falta `/revisa` sobre un PR real y `/prueba` con navegador |
+| Skills de punta a punta | ✅ 14/14 evals en modo local, 3/3 en modo Jira y `/revisa` sobre un PR real de Bitbucket (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)); falta `/prueba` con navegador |
 | CLI npm | ✅ Tests automáticos + instalación real de la 0.1.1 desde GitHub Packages (2026-10-03) |

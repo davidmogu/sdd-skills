@@ -56,3 +56,20 @@
 Estado verificado después en Jira: SDD-5 en *In Progress*, SDD-6 creada con puntos.
 
 **Total acumulado de evals: 9,85 $.**
+
+## Pasada 3 — `/revisa` sobre un PR real de Bitbucket (2026-10-03)
+
+- **PR:** `jaware-solutions/sdd-sandbox` #1, con la rama incompleta a propósito (E2 sin implementar y sin tests).
+- **Respuestas en el prompt:** publicar solo bloqueantes e importantes.
+- **Coste:** **0,66 $**.
+
+| Comprobación | Resultado |
+|---|---|
+| Lee el PR, el diff y el CI por la API | ✅ |
+| Hallazgos | ✅ 2 bloqueantes correctos: E2 sin implementar (lo comprobó ejecutando la función) y ningún escenario con test, aunque el checklist del PR decía lo contrario. Seguridad, rendimiento y convenciones: sin hallazgos |
+| No duplica | ✅ El comentario existente de la línea 6 no se repite; el hallazgo pasa al resumen |
+| PR propio | ✅ Su veredicto era *pedir cambios*, pero publica solo un comentario (sin `approve` ni `request-changes`) |
+| Degradación | ✅ `git fetch` dio 403 (el helper del Keychain de la máquina aportó un token de otro repo); revisó la copia local tras comprobar que coincidía con el commit del PR, y lo explicó |
+| Limpieza | ✅ Worktree temporal eliminado; informe local generado |
+
+**Total acumulado de evals: 10,51 $.**
