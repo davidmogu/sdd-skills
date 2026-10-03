@@ -2,7 +2,7 @@
 
 Escriben en un proyecto **real** de Jira. Por eso están fuera de la suite normal: ni `npm test` ni la pasada general las ejecutan.
 
-- **Proyecto:** `SDD` de pruebas en `jaware-solutions.atlassian.net`, configurado en `config-jira.sh`.
+- **Proyecto:** `config-jira.sh` apunta al proyecto `SDD` de pruebas, que **se borró el 2026-10-03** tras verificar las skills. Para volver a ejecutarlas, crea un proyecto de software team-managed y actualiza en `config-jira.sh` la clave, los IDs de estado (`listJiraStatuses`) y el campo de story points.
 - **Requisitos:** el MCP de Atlassian conectado en Claude Code y, para `jira-desarrolla`, una historia en *To Do* que cumpla la DoR (ajusta la clave en `jira-desarrolla/prompt.md`).
 - **Coste de una pasada:** ~2 $.
 
