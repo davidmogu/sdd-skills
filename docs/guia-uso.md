@@ -33,11 +33,13 @@ El paquete está en GitHub Packages. Añade al `.npmrc` del proyecto, o al de tu
 
 ```bash
 npm i -D @davidmogu/sdd-skills
-npx sdd init            # copia las skills a .claude/skills/ (haz commit para compartirlas con el equipo)
-npx sdd init --global   # o en ~/.claude/skills/, solo para ti
-npx sdd update          # actualizar sin pisar lo que hayas modificado
-npx sdd doctor          # diagnóstico
+npx @davidmogu/sdd-skills init            # copia las skills a .claude/skills/ (haz commit para compartirlas con el equipo)
+npx @davidmogu/sdd-skills init --global   # o en ~/.claude/skills/, solo para ti
+npx @davidmogu/sdd-skills update          # actualizar sin pisar lo que hayas modificado
+npx @davidmogu/sdd-skills doctor          # diagnóstico
 ```
+
+> ⚠️ Usa siempre el nombre completo `npx @davidmogu/sdd-skills …`. Con `npx sdd …`, si la instalación ha fallado, npx descarga y ejecuta **otro paquete público** llamado `sdd`, que no tiene nada que ver con este.
 
 ### Invocación
 
@@ -80,7 +82,7 @@ Dos niveles, y **manda el del repo**:
 - `/inicializa` escribe la config del repo **completa**: un compañero sin tu config global obtiene el mismo comportamiento.
 - Sin config de repo, las skills funcionan con la global y detectan lo demás, pero te recomiendan `/inicializa`.
 - Hay claves que solo tienen sentido en el repo (hosting, comandos de test, proyecto Jira, estados): en la global se ignoran.
-- `npx sdd doctor` muestra la config efectiva y de qué nivel sale cada valor.
+- `npx @davidmogu/sdd-skills doctor` muestra la config efectiva y de qué nivel sale cada valor.
 
 Referencia comentada de todas las claves: [`src/shared/config/config-repo.yml`](../src/shared/config/config-repo.yml).
 
@@ -105,7 +107,7 @@ Pon un fichero con el mismo nombre que la plantilla del paquete en:
 
 Ejemplo: `.sdd/templates/pr.md` sustituye la descripción de PR de `/desarrolla`. Plantillas disponibles: `historia.md`, `epica.md`, `plan.md`, `pr.md`, `comentario.md`, `resumen-revision.md`, `caso-e2e.md`, `bug.md`, `test-playwright.spec.ts`, `doc-tecnica.md`, `adr.md` y `changelog.md`.
 
-No edites las skills instaladas: `sdd update` conserva tus cambios, pero dejarás de recibir mejoras en esos ficheros.
+No edites las skills instaladas: `npx @davidmogu/sdd-skills update` conserva tus cambios, pero dejarás de recibir mejoras en esos ficheros.
 
 ## 6. Convenciones
 

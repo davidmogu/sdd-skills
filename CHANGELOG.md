@@ -4,6 +4,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [Sin publicar]
 
+### Corregido
+- Documentación y mensajes del CLI usan `npx @davidmogu/sdd-skills …`: con `npx sdd …`, si la instalación falla, npx ejecuta otro paquete público llamado `sdd`.
+- `scripts/release.mjs` actualiza también la versión de `package-lock.json`.
+
 ## [0.1.0] - 2026-10-03
 
 ### Añadido

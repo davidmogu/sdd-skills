@@ -38,7 +38,7 @@ Cada fase deja un **artefacto verificable** (historia, plan, código, revisión,
 | Autonomía en desarrollo | **Plan técnico aprobado → ejecución** (tests y commits por tarea), parada antes del PR |
 | Pruebas e2e | **Exploratoria vía MCP de navegador + generación de tests Playwright** versionados |
 | Niveles | **Global y repo**, para instalación y configuración; manda el repo (RF-T10) |
-| Distribución | **Plugin de Claude Code** (marketplace en el mismo repo de GitHub) + **paquete npm en GitHub Packages** con CLI (`npx sdd init`) |
+| Distribución | **Plugin de Claude Code** (marketplace en el mismo repo de GitHub) + **paquete npm en GitHub Packages** con CLI (`npx @davidmogu/sdd-skills init`) |
 | Gobernanza | **Un responsable único** decide los cambios en convenciones y plantillas, y publica las versiones |
 | Audiencia | Equipos internos de la org |
 | Idioma | Comandos, plantillas e informes **en español** |
@@ -145,7 +145,7 @@ Cada fase deja un **artefacto verificable** (historia, plan, código, revisión,
 ## 7. Requisitos no funcionales
 
 - **RNF-1 Agnóstico al stack**: funciona en proyectos Java, Node, Python, etc. El canal plugin no requiere Node.
-- **RNF-2 Instalación**: `/plugin marketplace add davidmogu/sdd-skills` + `/plugin install --scope user|project`, o `npm i -D @davidmogu/sdd-skills` desde GitHub Packages (`npx sdd init` copia las skills a `.claude/skills/`; con `--global`, a `~/.claude/skills/`).
+- **RNF-2 Instalación**: `/plugin marketplace add davidmogu/sdd-skills` + `/plugin install --scope user|project`, o `npm i -D @davidmogu/sdd-skills` desde GitHub Packages (`npx @davidmogu/sdd-skills init` copia las skills a `.claude/skills/`; con `--global`, a `~/.claude/skills/`).
 - **RNF-3 Versionado semántico** y changelog. Las actualizaciones no pisan las plantillas personalizadas del proyecto.
 - **RNF-4 Seguridad**: no hay credenciales en `.sdd/config.yml`. Los tokens van por variables de entorno o por la autenticación de cada CLI o MCP, y los informes no incluyen secretos.
 - **RNF-5 Idempotencia**: volver a ejecutar una skill sobre el mismo ID actualiza en lugar de duplicar (issues, comentarios de PR, páginas de Confluence).

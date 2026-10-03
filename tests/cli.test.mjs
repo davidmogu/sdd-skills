@@ -50,7 +50,7 @@ test('init dos veces sugiere update', () => {
   init({ dest, version: '1', origen });
   const r = init({ dest, version: '1', origen });
   assert.equal(r.ok, false);
-  assert.match(r.mensaje, /sdd update/);
+  assert.match(r.mensaje, /npx @davidmogu\/sdd-skills update/);
 });
 
 test('update reemplaza lo no tocado, conserva lo modificado y elimina lo retirado', () => {

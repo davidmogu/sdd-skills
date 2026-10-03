@@ -44,7 +44,7 @@ function escribirManifiesto(dest, version, ficheros) {
 
 export function init({ dest, version, force = false, origen = ORIGEN }) {
   if (leerManifiesto(dest)) {
-    return { ok: false, mensaje: `Ya instalado en ${dest}. Usa \`sdd update\`${dest.includes('.claude') ? '' : ''}.` };
+    return { ok: false, mensaje: `Ya instalado en ${dest}. Usa \`npx @davidmogu/sdd-skills update\`.` };
   }
   const { skills, mapa } = ficherosPaquete(origen);
   const conflictos = skills.filter((s) => existsSync(join(dest, s)));
@@ -62,7 +62,7 @@ export function init({ dest, version, force = false, origen = ORIGEN }) {
 
 export function update({ dest, version, origen = ORIGEN }) {
   const manifiesto = leerManifiesto(dest);
-  if (!manifiesto) return { ok: false, mensaje: `No hay instalación en ${dest}. Usa \`sdd init\`.` };
+  if (!manifiesto) return { ok: false, mensaje: `No hay instalación en ${dest}. Usa \`npx @davidmogu/sdd-skills init\`.` };
   const { mapa } = ficherosPaquete(origen);
   const anterior = manifiesto.ficheros;
   const nuevoManifiesto = {};

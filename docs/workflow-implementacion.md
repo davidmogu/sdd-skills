@@ -276,13 +276,13 @@ Las tres subfases son independientes entre sí.
 | ID | Tarea | Requisito |
 |---|---|---|
 | F10.1 | `sdd init [--global]`: copia a `.claude/skills/` o `~/.claude/skills/` y crea el manifiesto con hashes | §4, D12 |
-| F10.2 | `sdd update`: reemplaza los ficheros que el usuario no ha tocado y avisa de los modificados | RNF-3 |
+| F10.2 | `npx @davidmogu/sdd-skills update`: reemplaza los ficheros que el usuario no ha tocado y avisa de los modificados | RNF-3 |
 | F10.3 | `sdd doctor`: esquema de las dos configs, config efectiva con el origen de cada clave, instalación duplicada (plugin + npm, global + repo), CLIs, variables de entorno y versiones mínimas | §4, D11 |
 | F10.4 | Tests del CLI (node:test) | §10 |
 | F10.5 | Documentar `.npmrc` para GitHub Packages | RNF-2 |
 
 **✅ Checkpoint F10:**
-- `npm i -D` desde GitHub Packages seguido de `npx sdd init` deja `/inicializa` disponible.
+- `npm i -D` desde GitHub Packages seguido de `npx @davidmogu/sdd-skills init` deja `/inicializa` disponible.
 - Si se modifica un fichero a mano, `update` lo respeta.
 - `doctor` detecta una instalación duplicada.
 

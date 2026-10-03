@@ -46,6 +46,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     execFileSync('npm', ['test', '--silent'], { cwd: raiz, stdio: 'inherit' });
     if (seco) { console.log(`[dry-run] Se publicaría v${version}`); process.exit(0); }
     aplicarVersion(raiz, version, new Date().toISOString().slice(0, 10));
+    execFileSync('npm', ['install', '--package-lock-only', '--silent'], { cwd: raiz, stdio: 'inherit' });
     git('add', 'package.json', 'package-lock.json', '.claude-plugin', 'CHANGELOG.md');
     git('commit', '-m', `chore(release): v${version}`);
     git('tag', '-a', `v${version}`, '-m', `v${version}`);

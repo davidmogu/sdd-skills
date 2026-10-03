@@ -114,14 +114,14 @@ sdd-skills/
 | Canal | Instalación | Invocación | Actualización | Requisito |
 |---|---|---|---|---|
 | **Plugin** | `/plugin marketplace add davidmogu/sdd-skills` → `/plugin install sdd@sdd-skills --scope user\|project` | `/inicializa` (o `/sdd:inicializa` si hay conflicto) | `/plugin marketplace update` | Ninguno |
-| **npm** | `npm i -D @davidmogu/sdd-skills` → `npx sdd init [--global]` | `/inicializa`, `/planifica`… | `npx sdd update [--global]` | Node + `.npmrc` hacia GitHub Packages |
+| **npm** | `npm i -D @davidmogu/sdd-skills` → `npx @davidmogu/sdd-skills init [--global]` | `/inicializa`, `/planifica`… | `npx @davidmogu/sdd-skills update [--global]` | Node + `.npmrc` hacia GitHub Packages |
 
 **Alcance de la instalación (D12):**
 
 | Alcance | Plugin | npm | Quién lo ve |
 |---|---|---|---|
-| **Global** (usuario) | `--scope user` (por defecto) | `npx sdd init --global` → `~/.claude/skills/` | Tú, en todos tus proyectos |
-| **Repo** (equipo) | `--scope project` → queda en `.claude/settings.json` versionado | `npx sdd init` → `.claude/skills/` del repo | Todo el que clone el repo |
+| **Global** (usuario) | `--scope user` (por defecto) | `npx @davidmogu/sdd-skills init --global` → `~/.claude/skills/` | Tú, en todos tus proyectos |
+| **Repo** (equipo) | `--scope project` → queda en `.claude/settings.json` versionado | `npx @davidmogu/sdd-skills init` → `.claude/skills/` del repo | Todo el que clone el repo |
 
 Para equipos se recomienda el **alcance repo**: quien clone el repo recibe las skills sin instalar nada a mano (con el plugin, Claude Code le propone instalarlo).
 

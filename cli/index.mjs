@@ -13,10 +13,10 @@ const flag = (f) => args.includes(f);
 
 const AYUDA = `sdd ${version} — Skills de Spec Driven Development para Claude Code
 
-Uso:
-  sdd init [--global] [--force]   Copia las skills a .claude/skills/ del repo (o a ~/.claude/skills/)
-  sdd update [--global]           Actualiza sin pisar los ficheros que hayas modificado
-  sdd doctor [--json]             Valida configs, instalación y dependencias; muestra la config efectiva
+Uso (con el nombre completo del paquete: \`npx sdd\` podría ejecutar otro paquete público):
+  npx @davidmogu/sdd-skills init [--global] [--force]   Copia las skills a .claude/skills/ (o a ~/.claude/skills/)
+  npx @davidmogu/sdd-skills update [--global]           Actualiza sin pisar los ficheros que hayas modificado
+  npx @davidmogu/sdd-skills doctor [--json]             Valida configs, instalación y dependencias
 
 Después, en Claude Code: /inicializa`;
 

@@ -23,7 +23,7 @@ Skills de **Spec Driven Development** para Claude Code: un flujo estructurado de
 
 ```bash
 npm i -D @davidmogu/sdd-skills
-npx sdd init
+npx @davidmogu/sdd-skills init
 ```
 
 Las skills se invocan por su nombre (`/planifica`). Si otra skill instalada se llama igual, usa la forma con namespace del plugin (`/sdd:planifica`).
