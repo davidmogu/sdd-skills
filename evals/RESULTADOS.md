@@ -73,3 +73,17 @@ Estado verificado después en Jira: SDD-5 en *In Progress*, SDD-6 creada con pun
 | Limpieza | ✅ Worktree temporal eliminado; informe local generado |
 
 **Total acumulado de evals: 10,51 $.**
+
+## Pasada 4 — Confluence, navegador y canal del plugin (2026-10-03)
+
+**Coste:** **1,81 $** (1,54 $ los dos casos + 0,27 $ de la prueba del plugin instalado).
+
+| Prueba | Resultado |
+|---|---|
+| **Canal del plugin** | ✅ `claude plugin marketplace add davidmogu/sdd-skills` + `install --scope user` instala la 0.1.2 con las 6 skills (~526 tokens fijos por sesión). La skill instalada se ejecuta y responde en español |
+| **`/documenta` + Confluence + Jira** (espacio de pruebas `SDDPRUEBAS`, historia SDD-5) | ✅ 4/4: README con un ejemplo ejecutado contra el código, CHANGELOG, comprobación de que la página no existía, página creada bajo la página padre, enlace web en SDD-5 tras comprobar que no estaba duplicado (verificado después en Jira). Señala que faltan tests y una discrepancia entre el mensaje "anterior" y el `desde == hasta` aceptado |
+| **`/prueba` con Playwright MCP** (web local con un fallo sembrado) | ✅ 6/6: E1 pasa (exploratoria y test, 3 repeticiones sin flaky); E2 detecta el fallo de la aplicación, comprueba que no es del test, lo marca `test.fixme` con `BUG-001` y crea el bug local. Selectores `getByLabel`/`getByRole`, comentarios Dado/Cuando/Entonces y capturas `E1.png`/`E2.png` |
+
+El arnés acepta un `mcp.json` por caso (`--mcp-config`) para dar a la sesión un MCP propio, como Playwright.
+
+**Total acumulado de evals: 12,32 $.**

@@ -38,7 +38,7 @@ node evals/_arnes/ejecutar.mjs --tag negativo --max-cost-usd 2       # un subcon
 node evals/_arnes/ejecutar.mjs --regrade evals/results/local-<fecha>  # recalcular graders sin coste
 ```
 
-Evalúa `file_exists`, `regex` y `tool_used`; los `llm` quedan como *pendiente de juicio* (revisa `trace.jsonl` y el workspace indicado en `resultado.json`).
+Si la carpeta del caso tiene un `mcp.json`, se pasa como `--mcp-config` (p. ej. Playwright MCP para `/prueba`). Evalúa `file_exists`, `regex` y `tool_used`; los `llm` quedan como *pendiente de juicio* (revisa `trace.jsonl` y el workspace indicado en `resultado.json`).
 
 ### `claude plugin eval`
 

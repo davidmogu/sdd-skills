@@ -56,6 +56,8 @@ function ejecutarCaso({ dir, cfg }) {
       '--allowedTools', ex.allowed_tools.join(' '), '--disallowedTools', 'AskUserQuestion',
     ];
     if (MODELO) argv.push('--model', MODELO);
+    // MCP propios del caso (p. ej. Playwright MCP para /prueba)
+    if (existsSync(join(dir, 'mcp.json'))) argv.push('--mcp-config', join(dir, 'mcp.json'));
     const dirCaso = join(salida, cfg.name);
     mkdirSync(dirCaso, { recursive: true });
     const traza = createWriteStream(join(dirCaso, 'trace.jsonl'));

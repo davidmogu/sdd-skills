@@ -83,6 +83,7 @@ git push && git push origin v0.2.0          # el workflow Release publica en Git
 | Adaptador Bitbucket Cloud | ✅ 2026-10-03 (`jaware-solutions/sdd-sandbox`, PR #1): las 8 operaciones |
 | Adaptadores GitLab y Azure DevOps | ⏳ Pendiente: sin cuentas de prueba |
 | Adaptador Jira y `/inicializa` con Atlassian | ✅ 2026-10-03: las 8 operaciones del contrato y `/inicializa`, `/planifica` y `/desarrolla` de punta a punta contra el proyecto `SDD` ([`evals/RESULTADOS.md`](../evals/RESULTADOS.md)) |
-| Confluence (`/documenta`) | ⏳ Pendiente: falta un espacio de pruebas |
-| Skills de punta a punta | ✅ 14/14 evals en modo local, 3/3 en modo Jira y `/revisa` sobre un PR real de Bitbucket (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)); falta `/prueba` con navegador |
+| Confluence (`/documenta`) | ✅ 2026-10-03: página creada en un espacio de pruebas y enlazada a la historia en Jira |
+| Skills de punta a punta | ✅ 14/14 evals en modo local, 3/3 en modo Jira, `/revisa` sobre un PR real de Bitbucket y `/prueba` con Playwright MCP (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)) |
+| Canal del plugin | ✅ 2026-10-03: instalación desde el marketplace y ejecución |
 | CLI npm | ✅ Tests automáticos + instalación real de la 0.1.1 desde GitHub Packages (2026-10-03) |
