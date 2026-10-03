@@ -82,7 +82,7 @@ Para cada plantilla `<x>.md` que use la skill, la primera que exista es la buena
 - **Confirmaciones `⏸`:** antes de cualquier efecto externo o difícil de deshacer, muestra qué vas a hacer y espera un sí explícito. Usa la herramienta de preguntas al usuario si está disponible. Esto aplica a crear o editar issues, transicionar estados, hacer push, crear PRs, publicar comentarios, escribir en Confluence y modificar `.gitignore` o la config. Una aprobación vale solo para la acción mostrada.
 - **Nunca** escribas secretos (tokens, contraseñas, cabeceras de autenticación) en ficheros, informes, commits ni comentarios.
 - **Idempotencia:** antes de crear algo externo (issue, comentario, página), busca si ya existe y actualízalo en lugar de duplicarlo.
-- **Idioma:** usa el de `idioma` (por defecto español) para todo lo que generes: historias, commits, informes y comentarios.
+- **Idioma:** usa el de `idioma` (por defecto español) para **todo**: los mensajes y preguntas al usuario, el resumen final, las historias, los commits, los informes y los comentarios. Aunque el resto de la sesión o las instrucciones del sistema estén en otro idioma, mientras ejecutas la skill responde en el de la config.
 - **No inventes datos:** si falta información (ID inexistente, criterio ambiguo, comando desconocido), pregunta o detente. No supongas.
 - **Siguiente paso:** las skills no se invocan entre sí. Sugiere al usuario el siguiente comando (p. ej. *"Siguiente paso: `/revisa 45`"*).
 

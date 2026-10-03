@@ -26,6 +26,22 @@
 
 ## Ejecutar (cuesta dinero o cuota)
 
+> Resultados de la última pasada: [`RESULTADOS.md`](RESULTADOS.md). Coste real de una pasada completa: ~6,5 $.
+
+### Arnés local (si el sandbox no puede dar Bash)
+
+En macOS con Docker Desktop, `claude plugin eval` rechaza los casos con Bash por los enlaces de `~/.docker/cli-plugins`. El arnés ejecuta los mismos `case.yaml` con `claude -p --plugin-dir`, sin sandbox:
+
+```bash
+node evals/_arnes/ejecutar.mjs -j 4 --max-cost-usd 8                 # todos
+node evals/_arnes/ejecutar.mjs --tag negativo --max-cost-usd 2       # un subconjunto
+node evals/_arnes/ejecutar.mjs --regrade evals/results/local-<fecha>  # recalcular graders sin coste
+```
+
+Evalúa `file_exists`, `regex` y `tool_used`; los `llm` quedan como *pendiente de juicio* (revisa `trace.jsonl` y el workspace indicado en `resultado.json`).
+
+### `claude plugin eval`
+
 ```bash
 # Una pasada de todo, sin comparar contra "sin plugin", con tope de gasto
 claude plugin eval . --scaffold --allow-tools Bash Write Edit \

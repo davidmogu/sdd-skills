@@ -39,7 +39,7 @@ graders:
     target:
       source: file
       path: docs/configuracion.md
-    pattern: TZ_TIENDA
+    pattern: "\\| `TZ_TIENDA` \\|"
     match: not_contains
   - name: detecta
     type: llm

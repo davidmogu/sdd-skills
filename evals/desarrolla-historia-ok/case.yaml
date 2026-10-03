@@ -54,7 +54,7 @@ graders:
   - name: sin-push
     type: tool_used
     tool: Bash
-    input_match: git push
+    input_match: '(^|"command":\s*"|[;&|]\s*|\\n\s*)git push'
     min: 0
     max: 0
   - name: calidad
