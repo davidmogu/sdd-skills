@@ -26,7 +26,7 @@ Guarda `cloudId` y `sitio` (la `url`).
 | Estado lógico | Propuesta |
 |---|---|
 | `en_curso` | El primero de categoría *indeterminate* (p. ej. *In Progress* / *En curso*) |
-| `en_revision` | Un estado *indeterminate* cuyo nombre contenga *review*, *revisión* o *QA*; si no hay, déjalo sin mapear y avisa (las skills no transicionarán a revisión) |
+| `en_revision` | Un estado *indeterminate* cuyo nombre contenga *review*, *revisión* o *QA*; si no hay, déjalo sin mapear y avisa (las skills no transicionarán a revisión). Es habitual en proyectos team-managed recién creados (solo *To Do / In Progress / Done*): sugiere añadir un estado de revisión al workflow si el equipo lo quiere |
 | `hecho` | El de categoría *done* (*Done* / *Hecho*). Solo se usa para leer: ninguna skill transiciona a *hecho* (D4) |
 
 Guarda `{nombre, id}` de cada uno. **No** guardes IDs de transición: dependen de cada issue y se resuelven al transicionar.
@@ -54,5 +54,5 @@ project = <proyecto> AND development[pullrequests].all > 0
 y `searchResultMode: "count"`.
 
 - **> 0** → la integración funciona.
-- **0** → puede que falte la integración o que aún no haya PRs. Avisa: *"Para que los PRs aparezcan en las historias, activa la integración de <hosting> con Jira (GitHub for Jira, Bitbucket, GitLab for Jira o Azure DevOps for Jira) y usa la clave en las ramas, los commits y el título del PR. Las skills SDD ya lo hacen."*
+- **0** → puede que falte la integración, que aún no haya PRs o que el token del MCP no tenga acceso a la información de desarrollo (verificado: un proyecto con PRs reales también puede devolver 0). Avisa: *"Para que los PRs aparezcan en las historias, activa la integración de <hosting> con Jira (GitHub for Jira, Bitbucket, GitLab for Jira o Azure DevOps for Jira) y usa la clave en las ramas, los commits y el título del PR. Las skills SDD ya lo hacen."*
 - Error de JQL (función no disponible) → trátalo como *desconocido* y da el mismo aviso.

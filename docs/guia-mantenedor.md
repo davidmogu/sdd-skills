@@ -81,7 +81,7 @@ git push && git push origin v0.2.0          # el workflow Release publica en Git
 |---|---|
 | Adaptador GitHub | ✅ 2026-10-02 (`davidmogu/sdd-sandbox`) |
 | Adaptadores GitLab, Azure y Bitbucket Cloud | ⏳ Pendiente: faltan sandboxes y credenciales |
-| Adaptador Jira y `/inicializa` con Atlassian | ⏳ Nombres de operación verificados con `discover`; pendiente de probar escrituras en un proyecto Jira de pruebas |
+| Adaptador Jira y `/inicializa` con Atlassian | ✅ 2026-10-03: las 8 operaciones del contrato y las lecturas de `/inicializa` contra el proyecto `SDD` (team-managed). ⏳ Falta ejecutar las skills completas en modo Jira |
 | Confluence (`/documenta`) | ⏳ Pendiente: falta un espacio de pruebas |
 | Skills de punta a punta | ✅ 14/14 evals en modo local + GitHub (2026-10-03, [`evals/RESULTADOS.md`](../evals/RESULTADOS.md)); falta `/revisa` sobre un PR real y `/prueba` con navegador |
 | CLI npm | ✅ Tests automáticos + instalación real de la 0.1.1 desde GitHub Packages (2026-10-03) |
